@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pakistan Fire Explorer 2002</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Pakistan Fire Explorer <span>MODIS active-fire detections · 2002</span></h1>
+  <p class="sub">Interactive statistics from <code>modis_2002_Pakistan.csv</code> (NASA MODIS, Terra &amp; Aqua). Use the filters and the trend slider; click a month bar to zoom into it.</p>
+</header>
+
+<section class="controls" aria-label="Filters">
+  <div class="ctl wide">
+    <label>Date range: <b id="rangeLabel"></b></label>
+    <div class="dual">
+      <input type="range" id="dFrom" min="1" max="365" value="1">
+      <input type="range" id="dTo" min="1" max="365" value="365">
+    </div>
+  </div>
+  <div class="ctl">
+    <label>Min. confidence: <b id="confLabel">0</b>%</label>
+    <input type="range" id="conf" min="0" max="100" step="5" value="0">
+  </div>
+  <div class="ctl">
+    <label>Satellite</label>
+    <div class="chk"><label><input type="checkbox" id="sTerra" checked> Terra</label><label><input type="checkbox" id="sAqua" checked> Aqua</label></div>
+  </div>
+  <div class="ctl">
+    <label>Day / night</label>
+    <select id="dn"><option value="">Both</option><option value="D">Day</option><option value="N">Night</option></select>
+  </div>
+  <div class="ctl trend">
+    <label>Trend slider – smoothing window: <b id="winLabel"></b></label>
+    <input type="range" id="win" min="1" max="60" value="14">
+    <label class="inline"><input type="checkbox" id="reg" checked> Show linear trend line</label>
+  </div>
+  <button id="reset">Reset filters</button>
+</section>
+
+<section class="kpis" id="kpis"></section>
+
+<main class="grid">
+  <article class="card span2"><h2>Daily detections &amp; trend <small id="trendNote"></small></h2><div class="cv h320"><canvas id="cDaily"></canvas></div></article>
+  <article class="card"><h2>Monthly detections <small>click a bar to zoom</small></h2><div class="cv h320"><canvas id="cMonth"></canvas></div></article>
+
+  <article class="card"><h2>Monthly mean FRP (MW)</h2><div class="cv h260"><canvas id="cFrpMonth"></canvas></div></article>
+  <article class="card"><h2>Day vs night</h2><div class="cv h260"><canvas id="cDN"></canvas></div></article>
+  <article class="card"><h2>Terra vs Aqua</h2><div class="cv h260"><canvas id="cSat"></canvas></div></article>
+
+  <article class="card span2"><h2>Location of detections <small>longitude / latitude · colour = FRP</small></h2><div class="cv h420"><canvas id="cMap"></canvas></div></article>
+  <article class="card"><h2>Detections by latitude band</h2><div class="cv h420"><canvas id="cLat"></canvas></div></article>
+
+  <article class="card"><h2>Confidence distribution</h2><div class="cv h260"><canvas id="cConf"></canvas></div></article>
+  <article class="card"><h2>FRP distribution (MW)</h2><div class="cv h260"><canvas id="cFrp"></canvas></div></article>
+  <article class="card"><h2>Hour of day (Pakistan time, UTC+5)</h2><div class="cv h260"><canvas id="cHour"></canvas></div></article>
+
+  <article class="card span2"><h2>Brightness vs FRP <small id="corrNote"></small></h2><div class="cv h320"><canvas id="cBF"></canvas></div></article>
+  <article class="card"><h2>Summary statistics</h2><div class="tbl"><table id="stats"></table></div></article>
+</main>
+<footer>Data: NASA FIRMS MODIS C6.1 (2002, Pakistan). FRP = Fire Radiative Power; brightness &amp; T31 in Kelvin. Charts: Chart.js.</footer>
+
+<script src="vendor/chart.umd.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
